@@ -3,8 +3,11 @@ bin/
 obj/
 publish/
 
+# Unwanted Microsoft solution config file - csproj is enough
+*.sln
+
 # VS Code
 .vscode/
 
-# Version artifacts
+# Local Version override - shouldn't get into the repo, but can be used for local override
 version.local.txt

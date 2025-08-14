@@ -17,20 +17,20 @@ Uses the Windows `winspool.drv` API to send RAW byte streams directly to printer
 RawPrint <printer-name> <file-path>
 ```
 
-### Arguments
+Arguments:
 
 | Argument     | Description                            |
 |--------------|----------------------------------------|
 | printer-name | Exact name of installed printer        |
 | file-path    | Path to file containing raw print data |
 
-### Example
+Example:
 
 ```cmd
 RawPrint "HP OfficeJet Pro" C:\printjobs\document.prn
 ```
 
-### Return Codes
+Return Codes:
 
 | Code | Meaning           |
 |------|-------------------|
@@ -49,7 +49,7 @@ Inkjet printers are particularly susceptible to ink drying in the print head noz
 
 While printing regular images can help, it consumes significant ink and provides limited diagnostic information about nozzle health.
 
-Epson printers offer a specialized solution: The **Nozzle Check command** - a binary instruction that efficiently:
+Epson printers offer a specialized solution - the **Nozzle Check command** - a binary instruction that efficiently:
 
 1. Uses minimal ink
 2. Provides clear visual diagnostics
@@ -57,7 +57,7 @@ Epson printers offer a specialized solution: The **Nozzle Check command** - a bi
 
 However, sending these manufacturer-specific RAW commands automatically (regularly) isn't implemented.
 
-## Sample usage: Automated Nozzle Check Workflow
+## Sample usage - Automated Nozzle Check Workflow
 
 Here's how to implement scheduled nozzle checks using RawPrint:
 

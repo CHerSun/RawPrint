@@ -2,7 +2,6 @@
   <PropertyGroup>
     <!-- Assembly info -->
     <AssemblyName>RawPrint</AssemblyName>
-    <InvariantGlobalization>true</InvariantGlobalization>
 
     <!-- Versioning System -->
     <VersionBase Condition="'$(VersionBase)' == ''">$([System.IO.File]::ReadAllText('version.txt').Trim())</VersionBase>
@@ -13,14 +12,22 @@
     <AssemblyVersion>$(VersionBase).0.0</AssemblyVersion>
 
     <!-- Publish configuration -->
-    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <PublishSingleFile>true</PublishSingleFile>
+    <InvariantGlobalization>true</InvariantGlobalization>
     <SelfContained>false</SelfContained>
+    <!-- Runnable library publish variant - very small -->
+    <!--
+    <OutputType>library</OutputType>
+    <PublishSingleFile>false</PublishSingleFile>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    -->
+    <!-- Executable publish variant - larger, but still ok -->
+    <OutputType>exe</OutputType>
+    <PublishSingleFile>true</PublishSingleFile>
 
     <!-- Language features -->
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
 
   </PropertyGroup>
