@@ -4,6 +4,7 @@
     <AssemblyName>RawPrint</AssemblyName>
 
     <!-- Versioning System -->
+    <!-- base version as MAJOR.MINOR in file `version.txt`. GitHub adds its build number as PATCH. Locally built-version use `.0` as PATCH. -->
     <VersionBase Condition="'$(VersionBase)' == ''">$([System.IO.File]::ReadAllText('version.txt').Trim())</VersionBase>
     <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
     <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
@@ -16,19 +17,22 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <InvariantGlobalization>true</InvariantGlobalization>
     <SelfContained>false</SelfContained>
-    <!-- Runnable library publish variant - very small -->
-    <!--
-    <OutputType>library</OutputType>
-    <PublishSingleFile>false</PublishSingleFile>
-    <EnableDynamicLoading>true</EnableDynamicLoading>
-    -->
-    <!-- Executable publish variant - larger, but still ok -->
+    <!-- Default publish - as a single executable non-self-contained file -->
     <OutputType>exe</OutputType>
     <PublishSingleFile>true</PublishSingleFile>
 
     <!-- Language features -->
     <ImplicitUsings>true</ImplicitUsings>
     <Nullable>enable</Nullable>
+  </PropertyGroup>
 
+  <!-- RUNNABLE LIBRARY publish configuration [optional]
+  Conditional for when OutputType is `library` to build a library (smaller size) which can be run via `dotnet RawPrint.dll`.
+  To trigger this publish mode use:
+    `dotnet publish -c Release -p:OutputType=library`
+  -->
+  <PropertyGroup Condition="'$(OutputType)' == 'library'">
+    <PublishSingleFile>false</PublishSingleFile>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
 </Project>
