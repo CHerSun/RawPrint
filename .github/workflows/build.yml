@@ -1,0 +1,56 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Read Version
+      id: version
+      run: |
+        $versionBase = Get-Content -Path version.txt -Raw
+        $versionBase = $versionBase.Trim()
+        echo "base_version=$versionBase" >> $env:GITHUB_OUTPUT
+        echo "Using base version: $versionBase"
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x.x'
+
+    - name: Build and Publish
+      run: |
+        dotnet publish -c Release -o publish `
+          -p:VersionBase=${{ steps.version.outputs.base_version }} `
+          -p:VersionPatch=${{ github.run_number }} `
+          -p:VersionSuffix="-ci.${{ github.run_id }}"
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: RawPrint-${{ steps.version.outputs.base_version }}.${{ github.run_number }}
+        path: publish/RawPrint.exe
+        retention-days: 5
+
+    - name: Create Release
+      if: github.ref == 'refs/heads/main'
+      uses: softprops/action-gh-release@v1
+      with:
+        name: v${{ steps.version.outputs.base_version }}.${{ github.run_number }}
+        tag_name: v${{ steps.version.outputs.base_version }}.${{ github.run_number }}
+        files: publish/RawPrint.exe
+        generate_release_notes: true
+        draft: false
+        prerelease: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

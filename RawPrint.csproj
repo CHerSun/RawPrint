@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Assembly info -->
+    <AssemblyName>RawPrint</AssemblyName>
+    <InvariantGlobalization>true</InvariantGlobalization>
+
+    <!-- Versioning System -->
+    <VersionBase Condition="'$(VersionBase)' == ''">$([System.IO.File]::ReadAllText('version.txt').Trim())</VersionBase>
+    <VersionPatch Condition="'$(VersionPatch)' == ''">0</VersionPatch>
+    <VersionSuffix Condition="'$(VersionSuffix)' == ''"></VersionSuffix>
+    <Version>$(VersionBase).$(VersionPatch)$(VersionSuffix)</Version>
+    <FileVersion>$(VersionBase).$(VersionPatch)</FileVersion>
+    <AssemblyVersion>$(VersionBase).0.0</AssemblyVersion>
+
+    <!-- Publish configuration -->
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+
+    <!-- Language features -->
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+  </PropertyGroup>
+</Project>
